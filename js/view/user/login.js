@@ -4,12 +4,12 @@ import {  View, Text, TextInput, Image, PixelRatio, BackHandler, StyleSheet, Pla
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import px2dp from '../../util/px2dp';
-import Button from '../../compent/Button';
-import ImageButton from '../../compent/ImageButton';
-import TextButton from  '../../compent/TextButton';
+import Button from '../../component/Button';
+import ImageButton from '../../component/ImageButton';
+import TextButton from '../../component/TextButton';
 
 
-import Sign from './sign';
+import Sign from './my_profile';
 
 
 

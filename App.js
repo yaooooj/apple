@@ -20,11 +20,13 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 
 
-import Home from './view/home/home';
-import Oder from './view/oder/oder';
-import User from './view/user/user';
-import Profile from  './view/user/profile';
-import Login from './view/user/login';
+import Home from './js/view/home/home';
+import Oder from './js/view/oder/oder';
+import User from './js/view/user/user';
+import Profile from './js/view/user/profile';
+import Login from './js/view/user/login';
+import About from './js/view/user/about';
+import MyProfile from './js/view/user/my_profile';
 
 
 type Props = {};
@@ -35,36 +37,6 @@ export default class App extends Component<Props> {
 
 }
 
-
-class ModalScreen extends React.Component {
-  render() {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-          <Button
-              onPress={() => this.props.navigation.goBack()}
-              title="Dismiss"
-          />
-        </View>
-    );
-  }
-}
-
-
-const RootStack = createStackNavigator(
-    {
-      Main: {
-        screen: Home,
-      },
-      MyModal: {
-        screen: ModalScreen,
-      },
-    },
-    {
-      mode: 'modal',
-      headerMode: 'none',
-    }
-);
 
 const HomeStack = createStackNavigator({
     Home: Home,
@@ -79,10 +51,12 @@ const UserStack = createStackNavigator(
         Login: Login,
         User: User,
         Profile: Profile,
+        About: About,
+        MyProfile: MyProfile,
 
     },
     {
-        initialRouteName: 'Login',
+        initialRouteName: 'Profile',
         /* The header config from HomeScreen is now here */
         defaultNavigationOptions: {
             headerStyle: {
