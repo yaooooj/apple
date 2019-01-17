@@ -21,7 +21,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 
 import Home from './js/view/home/home';
-import Oder from './js/view/oder/oder';
+import Order from './js/view/oder/order';
 import User from './js/view/user/user';
 import Profile from './js/view/user/profile';
 import Login from './js/view/user/login';
@@ -43,7 +43,7 @@ const HomeStack = createStackNavigator({
 });
 
 const OderStack = createStackNavigator({
-    Oder: Oder,
+    Order: Order,
 });
 
 const UserStack = createStackNavigator(
@@ -74,7 +74,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
     const { routeName } = navigation.state;
     if (routeName === 'Home') {
         return <AntDesign name='home' size={25} color='red' />;
-    } else if (routeName === 'Oder') {
+    } else if (routeName === 'Order') {
         return <Octicons name='three-bars' size={25} color='red'/>;
     }else if (routeName === 'User') {
         return <AntDesign name='user' size={25} color='red' />;
@@ -83,9 +83,9 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
 
 const TabNavigator = createBottomTabNavigator(
     {
-      Home: { screen: HomeStack, },
-      Oder: { screen: OderStack, },
-      User: {screen: UserStack, },
+        Home: { screen: HomeStack, },
+        Order: { screen: OderStack, },
+         User: {screen: UserStack, },
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
