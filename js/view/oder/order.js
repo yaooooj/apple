@@ -4,11 +4,48 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
+    TextInput, StatusBar, Platform
 } from 'react-native';
+import theme from "../../config/theme";
+import Button from '../../component/Button';
+
+
+import BouncingPreloader from "react-native-bouncing-preloader";
+const icons = [
+    "https://www.shareicon.net/data/256x256/2016/05/04/759946_bar_512x512.png",
+    "https://www.shareicon.net/data/256x256/2016/05/04/759908_food_512x512.png",
+    "https://www.shareicon.net/data/256x256/2016/05/04/759956_food_512x512.png",
+    "https://www.shareicon.net/data/256x256/2016/05/04/759954_food_512x512.png",
+    "https://www.shareicon.net/data/256x256/2016/05/04/759906_food_512x512.png",
+    "https://www.shareicon.net/data/256x256/2016/05/04/759921_food_512x512.png"
+];
 
 //默认应用的容器组件
 export default class Order extends Component {
+
+    static navigationOptions = ({navigation}) => {
+        const params = navigation.state.params || {};
+
+        return {
+            headerTitle: "账单",
+
+        };
+    };
+
+    componentDidMount() {
+        this._navListener = this.props.navigation.addListener('didFocus', () => {
+            StatusBar.setBarStyle('light-content');
+            if (Platform.OS === "android"){
+                StatusBar.setBackgroundColor(theme.pageBck);
+            }
+
+        });
+    }
+
+    componentWillUnmount() {
+        this._navListener.remove();
+    }
+
     //构造函数
     constructor(props) {
         super(props);
@@ -30,12 +67,32 @@ export default class Order extends Component {
         console.log("文字状态值改变，界面渲染完毕!");
     }
 
+    onPress1(){
+        this.props.navigation.navigate('Detail');
+        //this.props.navigation.navigate("Detail");
+    }
+
     render() {
         return (
-            <View style={[styles.flex, styles.topStatus]}>
-                <TextInput style={styles.input}
-                           onChangeText={ (newText) => this.updateText(newText) }/>
-                <Text style={styles.tip}>已输入{this.state.text.length}个文字</Text>
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" ,marginTop: 20 }}>
+
+
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" ,marginTop: 80 }}>
+                    <BouncingPreloader
+                        icons={
+                            [
+                                require('../../image/ic_login_logo.png'),
+                                require('../../image/ic_login_logo.png'),
+                            ]
+                        }
+                        leftDistance={-100}
+                        rightDistance={-150}
+                        speed={1500}
+                    />
+                </View>
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" , flexDirection: 'row'}}>
+                    <Button text={"go detail"} onPress={this.onPress1.bind(this)}/>
+                </View>
             </View>
         );
     }

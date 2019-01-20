@@ -33,32 +33,26 @@ export default class About extends React.Component {
 
     _onPressCallback(position){
         switch(position){
-            case 0:  //title
-                this.props.navigator.push({
-                    component: Login
-                });
-                break;
-
-            case 1:  // add occupation
-                this._alert();
-                break;
-
             case 2:  //collection
                 this._alert();
                 break;
 
-            case 3:  //read articles
-                this._alert();
+            case 3:  //Cooperation
+                this.props.navigation.navigate("Scoring");
                 break;
 
-            case 4:  //tags
-                this._alert();
-                break;
-
-            case 5:  //rank
-                this._alert("logout");
+            case 4:  //scoring
+                this._alert('跳转去app store 的连接');
                 break;
         }
+    }
+
+    onCancel(){
+
+    }
+
+    onOk(){
+
     }
 
     render() {
@@ -86,7 +80,7 @@ export default class About extends React.Component {
                         }
                     </View>
                     <View style={{flexDirection: 'row' , justifyContent: 'center', marginBottom: 30, marginTop: 20}}>
-                        <Text style={{color: '#ccc'}}>掘金 3.7.3 - gold.xitu.io</Text>
+                        <Text style={{color: '#ccc'}}>顺借 1.0.3 - shun.jie.io</Text>
                     </View>
                 </ScrollView>
             </View>
@@ -96,16 +90,17 @@ export default class About extends React.Component {
     _alert(msg){
         if(Platform.OS === 'android') {
             Alert.alert(
-                'Message',
+                '',
                 {msg},
                 [{text: 'OK', onPress: () => {}}]
             );
         }else if(Platform.OS === 'ios'){
             AlertIOS.alert(
                 'Message',
-                "This function currently isn't available",
+                msg,
                 [{text: 'OK', onPress: () => {}}]
             );
+
         }
     }
 }

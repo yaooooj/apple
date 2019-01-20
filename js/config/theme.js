@@ -10,7 +10,10 @@ export default {
     screenHeight: Dimensions.get('window').height,
     themeColor: 'rgb(22,131,251)',
     pageBackgroundColor: '#f4f4f4',
+    pageBck:'#75747B',
     grayColor: '#c4c4c4',
+    btnColor:'#3E3E35',
+    textColor:'#A58D6D',
     btnActiveOpacity: 0.7,
     actionBar: {
         height: (Platform.OS === 'android') ? px2dp(49) : px2dp(69),

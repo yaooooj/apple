@@ -6,20 +6,23 @@ import {Text, View, StyleSheet, Platform, TouchableHighlight, TouchableNativeFee
 import px2dp from '../util/px2dp';
 import theme from '../config/theme';
 
-export default class Button extends Component{
+export default class DisButton extends Component{
     static propTypes = {
         text: PropTypes.string,
         onPress: PropTypes.func,
         backgroundColor: PropTypes.string,
-        disable: PropTypes.bool,
+        disabled: PropTypes.bool,
+        disableBackgroundColor: PropTypes.string,
     };
 
     static defaultProps = {
         backgroundColor: '#046ada',
-        disable: false,
+        disableBackgroundColor: '#ccc',
+        disabled: false,
     };
 
     render(){
+
         if(Platform.OS === 'android') {
             return (
                 <TouchableNativeFeedback
@@ -32,7 +35,7 @@ export default class Button extends Component{
                 <TouchableHighlight
                     style={{flex: 1, height: px2dp(45)}}
                     onPress={this.props.onPress}
-                    activeOpacity={theme.btnActiveOpacity}>
+                    activeOpacity={this.props.disabled?1:theme.btnActiveOpacity}>
                     {this._renderContent()}
                 </TouchableHighlight>
             );
@@ -44,7 +47,7 @@ export default class Button extends Component{
             <View style={{
                 flex: 1,
                 height: px2dp(45),
-                backgroundColor: this.props.backgroundColor,
+                backgroundColor: this.props.disabled?this.props.disableBackgroundColor:this.props.backgroundColor,
                 alignItems:'center',
                 justifyContent:'center',
                 borderRadius: 3,

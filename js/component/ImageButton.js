@@ -6,6 +6,7 @@ import ReactNative, {Text, View, StyleSheet, Platform, TouchableOpacity, Touchab
 import px2dp from '../util/px2dp';
 import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../config/theme';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default class ImageButton extends Component{
 
@@ -77,7 +78,7 @@ export default class ImageButton extends Component{
         const {text, icon, color, imgSize, fontSize, btnStyle} = this.props;
         return(
             <View style={[styles.view, btnStyle]}>
-                <Icon name={icon} size={imgSize} color={color}/>
+                <AntDesign name={icon} size={imgSize} color={color}/>
                 {text ?
                     <Text style={{fontSize: fontSize, color: color}}>{text}</Text>
                     :
@@ -91,7 +92,9 @@ export default class ImageButton extends Component{
 const styles = StyleSheet.create({
     view:{
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: theme.textColor,
+        borderRadius: 3,
     },
     text:{
         color: 'rgba(255,255,255,0.7)',

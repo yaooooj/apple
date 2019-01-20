@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {Text, View, StyleSheet, Platform, PixelRatio, TouchableNativeFeedback, TouchableOpacity, ToastAndroid, Alert, AlertIOS, ScrollView} from 'react-native';
 import px2dp from '../../util/px2dp';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Button from '../../component/Button';
 import theme from '../../config/theme';
 import Avatar from '../../component/Avatar';
@@ -29,9 +30,7 @@ export default class MeFragment extends Component {
     _onPressCallback(position){
         switch(position){
             case 0:  //title
-                this.props.navigator.push({
-                    component: Login
-                });
+                this.props.navigation.navigate("Login");
                 break;
 
             case 1:  // add occupation
@@ -50,7 +49,7 @@ export default class MeFragment extends Component {
                 this.props.navigation.navigate('About');
                 break;
             case 5:  //setting
-                alert("感谢你的反馈");
+                this.props.navigation.navigate('FeedBack');
                 break;
         }
     }
@@ -65,29 +64,29 @@ export default class MeFragment extends Component {
                                 <Avatar image={require('../../image/ic_login_logo.png')} size={px2dp(55)} textSize={px2dp(20)}/>
                                 <View style={{marginLeft: px2dp(12)}}>
                                     <Text style={{color: theme.text.color, fontSize: px2dp(20)}}>React_Native</Text>
-                                    <TextButton text="添加职位 @添加公司" color="#949494" fontSize={px2dp(13)} onPress={this._onPressCallback.bind(this, 1)}/>
+                                    <TextButton text="添加职位 @添加公司" color="#949494" fontSize={px2dp(13)} onPress={this._onPressCallback.bind(this, 0)}/>
                                 </View>
                             </View>
                         </TouchableNativeFeedback>
                         :
-                        <TouchableOpacity onPress={this._onPressCallback.bind(this, 1)} activeOpacity={theme.btnActiveOpacity}>
+                        <TouchableOpacity onPress={this._onPressCallback.bind(this, 0)} activeOpacity={theme.btnActiveOpacity}>
                             <View style={styles.intro}>
                                 <Avatar image={require('../../image/ic_login_logo.png')} size={px2dp(55)} textSize={px2dp(20)}/>
                                 <View style={{marginLeft: px2dp(12)}}>
-                                    <Text style={{color: theme.text.color, fontSize: px2dp(20)}}>WangdiCoder</Text>
-                                    <TextButton text="id: 1100010" color="#949494" fontSize={px2dp(14)} onPress={this._onPressCallback.bind(this, 2)}/>
+                                    <Text style={{color: "#fff", fontSize: px2dp(20)}}>WangdiCoder</Text>
+                                    <TextButton text="添加职位 @添加公司" color="#fff" fontSize={px2dp(13)} onPress={this._onPressCallback.bind(this, 0)}/>
                                 </View>
 
                             </View>
                         </TouchableOpacity>
                     }
                     <View style={styles.list}>
-                        <Item icon="md-heart" text="我的申请"  iconColor="#32cd32" onPress={this._onPressCallback.bind(this, 2)}/>
-                        <Item icon="md-eye" text="我的资料"  onPress={this._onPressCallback.bind(this, 3)}/>
+                        <Item icon="profile" iconColor={theme.textColor} text="我的申请"   onPress={this._onPressCallback.bind(this, 2)}/>
+                        <Item icon="eyeo" text="我的资料" iconColor={theme.textColor} onPress={this._onPressCallback.bind(this, 3)}/>
                     </View>
                     <View style={styles.list}>
-                        <Item icon="md-settings" text="关于我们" onPress={this._onPressCallback.bind(this, 4)}/>
-                        <Item icon="md-settings" text="用户反馈" onPress={this._onPressCallback.bind(this, 5)}/>
+                        <Item icon="smileo" text="关于我们" iconColor={theme.textColor} onPress={this._onPressCallback.bind(this, 4)}/>
+                        <Item icon="like2" text="用户反馈" iconColor={theme.textColor} onPress={this._onPressCallback.bind(this, 5)}/>
 
 
                     </View>
@@ -133,7 +132,7 @@ class Item extends Component {
             return (
                 <TouchableNativeFeedback onPress={onPress}>
                     <View style={styles.listItem}>
-                        <Icon name={icon} size={px2dp(22)} color={iconColor}/>
+                        <AntDesign name={icon} size={px2dp(22)} color={iconColor}/>
                         <Text style={{color: 'black', fontSize: px2dp(15), marginLeft: px2dp(20)}}>{text}</Text>
                         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <Text style={{color: "#ccc"}}>{subText}</Text>
@@ -145,7 +144,7 @@ class Item extends Component {
             return (
                 <TouchableOpacity onPress={onPress} activeOpacity={theme.btnActiveOpacity}>
                     <View style={styles.listItem}>
-                        <Icon name={icon} size={px2dp(22)} color={iconColor}/>
+                        <AntDesign name={icon} size={px2dp(22)} color={iconColor}/>
                         <Text style={{color: 'black', fontSize: px2dp(15), marginLeft: px2dp(20)}}>{text}</Text>
                         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <Text style={{color: "#ccc"}}>{subText}</Text>
@@ -171,16 +170,16 @@ const styles = StyleSheet.create({
         paddingTop: (Platform.OS === 'ios') ? px2dp(20) : 0,
     },
     intro: {
-        height: px2dp(100),
-        flexDirection: 'row',
+        height: px2dp(165),
+        flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: theme.textColor,
         padding: px2dp(20),
         borderTopWidth: 1/PixelRatio.get(),
         borderBottomWidth: 1/PixelRatio.get(),
         borderBottomColor: '#c4c4c4',
         borderTopColor: '#e4e4e4',
-        marginTop: px2dp(10)
+        //marginTop: px2dp(10)
     },
     list:{
         flex: 1,
@@ -197,6 +196,6 @@ const styles = StyleSheet.create({
         paddingLeft: px2dp(25),
         paddingRight: px2dp(25),
         borderBottomColor: '#c4c4c4',
-        borderBottomWidth: 1/PixelRatio.get()
+        borderBottomWidth: 1/PixelRatio.get() * 2
     }
 });

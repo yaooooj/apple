@@ -5,7 +5,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import px2dp from '../../util/px2dp';
 import Button from '../../component/Button';
-import ImageButton from '../../component/ImageButton';
 import TextButton from '../../component/TextButton';
 
 
@@ -76,7 +75,7 @@ export default class Login extends React.Component {
                             placeholder="手机号/邮箱"
                             placeholderTextColor="#c4c4c4"/>
                     </View>
-                    <View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
+                    <View style={{height: 1/PixelRatio.get(), backgroundColor:'c4c4c4'}}/>
                     <View style={styles.editView2}>
                         <TextInput
                             style={styles.edit}
