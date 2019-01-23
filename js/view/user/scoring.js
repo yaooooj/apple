@@ -22,7 +22,7 @@ export default class Scoring extends React.Component {
                     <Text style={{fontSize:16, color: '#000'}}>Mail：xxx-xxx-xxx</Text>
                 </View>
                 <View style={{marginTop: height *3/6, alignItems: "center"}}>
-                    <Text style={{color: '#ccc'}}>顺借 1.0.3 - shun.jie.io</Text>
+                    <Text style={{color: '#ccc'}}>顺借100 1.0.3 - shun.jie.io</Text>
                 </View>
             </View>
         );

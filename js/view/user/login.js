@@ -1,94 +1,142 @@
 import React, {Component} from 'react';
-import {  View, Text, TextInput, Image, PixelRatio, BackHandler, StyleSheet, Platform} from "react-native";
+import {  View, Text,Image, PixelRatio,StyleSheet, Platform, Alert, ToastAndroid, SafeAreaView, StatusBar} from "react-native";
+import PropTypes from 'prop-types';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import px2dp from '../../util/px2dp';
 import Button from '../../component/Button';
-import TextButton from '../../component/TextButton';
-
-
-import Sign from './my_profile';
-
-
-
+import SmsCaptchaInput from '../../component/SmsCaptureInput';
+import PhoneNumInput from '../../component/NumberInput';
+import Validator from '../../util/validator';
 
 
 export default class Login extends React.Component {
     static navigationOptions = ({navigation}) => {
         const params = navigation.state.params || {};
-
         return {
-            headerTitle: "我的",
+            headerTitle: "登录",
         };
     };
+
+    componentDidMount() {
+        this._navListener = this.props.navigation.addListener('didFocus', () => {
+            StatusBar.setBarStyle('light-content');
+            StatusBar.setBackgroundColor('#046ada');
+        });
+    }
+
+    componentWillUnmount() {
+        this._navListener.remove();
+    }
+
 
 
     constructor(props){
         super(props);
-        this.handleBack = this._handleBack.bind(this);
+        this.mockSuccess = true;
+        this.state = { inputBtnDisabled: false,};
+        this.onPressBtn = this.onPressBtn.bind(this);
+        this.onStop = this.onStop.bind(this);
+
+
+        this.onPress = this.onPress.bind(this);
+        // 验证器初始化
+        const validator = new Validator();
+        this.validator = validator;
+        this.collectValidate = validator.collect;
+        this.state = {errorMessage: PropTypes.string }
     }
 
-    componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBack);
+
+
+    onPressBtn(start, stop) {
+        this.setState({
+            inputBtnDisabled: true,
+        });
+        // console.log('请求发短信接口');
+        // mock
+        setTimeout(() => {
+            if (this.mockSuccess) {
+                start();
+            } else {
+                Alert.alert('获取验证码失败，请重试');
+                stop();
+            }
+            this.mockSuccess = !this.mockSuccess;
+        }, 2000);
     }
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
-    }
-
-    _handleBack() {
-        const navigator = this.props.navigator;
-        if (navigator && navigator.getCurrentRoutes().length > 1) {
-            navigator.pop();
-            alert('hello');
-            return true;
-        }
-        return false;
-    }
-
-    _signupCallback(){
-        this.props.navigator.push({
-            component: Sign
+    onStop(){
+        this.setState({
+            inputBtnDisabled: false,
         });
     }
 
-    _forgetPassword(){
+    onChangeText(captcha, name) {
+        console.log(captcha, name);
+    }
 
+    onPress(){
+        const res = this.validator.run();
+        if (res.err === 0){
+            console.warn(res.err);
+        }else {
+            ToastAndroid.showWithGravityAndOffset(
+                res.data.msg,
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+                0,
+                -350,
+            )
+        }
     }
 
     render() {
+        //let v = this.state.show ? <Text style={{color: 'red'}}>{ this.state.msg }</Text> : null;
         return (
             <View style={styles.view}>
-
                 <View style={styles.logo}>
                     <Image  style={{width:px2dp(45), height:px2dp(45)}} source={require('../../image/ic_login_logo.png')}/>
-                    <Text style={{margin: 20, color: '#fff'}}>
+                    <Text style={{margin: 20, color: '#bbb'}}>
                         让借钱变得更简单
                     </Text>
                 </View>
                 <View style={styles.editGroup}>
                     <View style={styles.editView1}>
-                        <TextInput
+                        <PhoneNumInput
                             style={styles.edit}
-                            underlineColorAndroid="transparent"
-                            placeholder="手机号/邮箱"
-                            placeholderTextColor="#c4c4c4"/>
+                            collectValidate={this.collectValidate}
+                            placeholderTextColor="#c4c4c4"
+                        />
                     </View>
-                    <View style={{height: 1/PixelRatio.get(), backgroundColor:'c4c4c4'}}/>
+                    <View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
                     <View style={styles.editView2}>
-                        <TextInput
-                            style={styles.edit}
-                            underlineColorAndroid="transparent"
-                            placeholder="密码"
-                            placeholderTextColor="#c4c4c4"/>
+                        <SmsCaptchaInput
+                            style={styles.inputContainer}
+                            inputStyle={styles.input}
+                            btnTextStyle={[styles.buttonText, {
+                                color: this.state.inputBtnDisabled ? '#999' : '#046ada',
+                                alignSelf: 'center'
+                            }]}
+                            placeholder="输入验证码"
+                            intervalTime={10}
+                            onPressBtn={this.onPressBtn}
+                            btnStyle={styles.btn}
+                            btnTextInital="发送验证码"
+                            btnTextSending="发送中..."
+                            btnTextTiming="{time}s"
+                            btnTextTimed="重新发送"
+                            placeholderTextColor="#c4c4c4"
+                            activeOpacity={0.7}
+                            onStop={this.onStop}
+                            codeLength={6}
+                            onChangeText={this.onChangeText}
+                            collectValidate={this.collectValidate}
+                        />
                     </View>
                     <View style={{marginTop: px2dp(10), height: px2dp(40)}}>
-                        <Button text="登录" onPress={this._handleBack.bind(this)}/>
-                    </View>
-                    <View style={styles.textButtonLine}>
-                        <TextButton text="忘记密码?" onPress={this._forgetPassword.bind(this)} color="rgba(255,255,255,0.5)"/>
-                        <TextButton text="注册账号" onPress={this._signupCallback.bind(this)}/>
+                        <Button text="登录" onPress={this.onPress}/>
                     </View>
                 </View>
             </View>
@@ -100,50 +148,48 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
     view: {
         flex: 1,
-        backgroundColor: 'rgb(22,131,251)'
+        backgroundColor: '#fff'
     },
-    actionBar:{
+    actionBar: {
         marginTop: (Platform.OS === 'ios') ? px2dp(10) : 0,
     },
-    logo:{
+    logo: {
         alignItems: 'center',
         marginTop: px2dp(40)
     },
-    edit:{
+    edit: {
         height: px2dp(40),
-        fontSize: px2dp(13),
         backgroundColor: '#fff',
         paddingLeft: px2dp(15),
         paddingRight: px2dp(15)
     },
-    editView1:{
+    editView1: {
         height: px2dp(48),
-        backgroundColor:'white',
+        backgroundColor: 'white',
         justifyContent: 'center',
         borderTopLeftRadius: 3,
         borderTopRightRadius: 3
     },
-    editView2:{
+    editView2: {
         height: px2dp(48),
-        backgroundColor:'white',
+        backgroundColor: 'white',
         justifyContent: 'center',
         borderBottomLeftRadius: 3,
         borderBottomRightRadius: 3
     },
-    editGroup:{
+    editGroup: {
         margin: px2dp(20)
     },
-    textButtonLine:{
+    textButtonLine: {
         marginTop: px2dp(12),
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    thirdPartyView:{
+    thirdPartyView: {
         flex: 1,
         marginTop: px2dp(10),
-        flexDirection:'row',
+        flexDirection: 'row',
         alignItems: 'flex-start',
-        justifyContent:'space-around'
+        justifyContent: 'space-around'
     }
-
 });

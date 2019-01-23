@@ -19,12 +19,46 @@ export default class ImageButton extends Component{
         fontSize: PropTypes.number,
         color: PropTypes.string,
         btnStyle:  ViewPropTypes.style,
+        isRunning: false,
     };
 
     static defaultProps = {
         imgSize: px2dp(40),
         fontSize: px2dp(13)
     };
+
+
+
+    // 开始倒计时
+    start() {
+        this.time = this.props.intervalTime;
+        this.interval = setInterval(this.timer, 1000);
+
+        if (this.props.autoFocus && this.input) {
+            this.input.focus();
+        }
+    }
+    // 结束倒计时
+    stop() {
+        clearInterval(this.interval);
+        this.setState({
+            buttonText: this.props.btnTextTimed,
+            isRunning: false,
+        });
+        this.props.onStop();
+    }
+
+    // 倒计时函数
+    timer() {
+        if (this.time > 0) {
+            this.setState({
+                buttonText: this.props.btnTextTiming.replace('{time}', this.time),
+            });
+            this.time -= 1;
+        } else {
+            this.stop();
+        }
+    }
 
     render() {
         const {image, icon, onPress} = this.props;
@@ -78,7 +112,7 @@ export default class ImageButton extends Component{
         const {text, icon, color, imgSize, fontSize, btnStyle} = this.props;
         return(
             <View style={[styles.view, btnStyle]}>
-                <AntDesign name={icon} size={imgSize} color={color}/>
+                <Icon name={icon} size={imgSize} color={color}/>
                 {text ?
                     <Text style={{fontSize: fontSize, color: color}}>{text}</Text>
                     :
@@ -93,7 +127,7 @@ const styles = StyleSheet.create({
     view:{
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.textColor,
+        //backgroundColor: theme.textColor,
         borderRadius: 3,
     },
     text:{

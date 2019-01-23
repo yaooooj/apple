@@ -46,6 +46,7 @@ export default class App extends Component<Props> {
 const HomeStack = createStackNavigator(
     {
         Home: Home,
+        MyProfile: MyProfile,
     },
     {
         initialRouteName: 'Home',
@@ -88,7 +89,6 @@ const UserStack = createStackNavigator(
         User: User,
         Profile: Profile,
         About: About,
-        MyProfile: MyProfile,
         FeedBack: FeedBack,
         Scoring: Scoring,
 
@@ -128,7 +128,7 @@ const getTabIcon = (navigation, focused, activeTintColor ) => {
     if (focused){
         ToastAndroid
     }
-    if (routeName === '借钱') {
+    if (routeName === '贷款') {
         iconName = `home${focused ? '' : ''}`;
         // Sometimes we want to add badges to some icons.
         // You can check the implementation below.
@@ -144,7 +144,7 @@ const getTabIcon = (navigation, focused, activeTintColor ) => {
 
 const TabNavigator = createBottomTabNavigator(
     {
-        借钱: {screen:HomeStack,},
+        贷款: {screen:HomeStack,},
         账单: {screen:OderStack,},
         我的: {screen:UserStack,},
     },

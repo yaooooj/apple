@@ -12,11 +12,13 @@ export default class Button extends Component{
         onPress: PropTypes.func,
         backgroundColor: PropTypes.string,
         disable: PropTypes.bool,
+        color: PropTypes.string,
     };
 
     static defaultProps = {
         backgroundColor: '#046ada',
         disable: false,
+        color: '#fff'
     };
 
     render(){
@@ -48,8 +50,10 @@ export default class Button extends Component{
                 alignItems:'center',
                 justifyContent:'center',
                 borderRadius: 3,
+                borderWidth: 1,
+                borderColor: theme.textColor
             }}>
-                <Text style={styles.text}>{this.props.text}</Text>
+                <Text style={{color: this.props.color, fontSize: px2dp(13)}}>{this.props.text}</Text>
             </View>
         );
     }
@@ -57,7 +61,7 @@ export default class Button extends Component{
 
 const styles = StyleSheet.create({
     text: {
-        color: 'white',
+        color: theme.textColor,
         fontSize: px2dp(13),
     },
 });

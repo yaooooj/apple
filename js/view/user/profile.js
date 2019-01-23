@@ -81,8 +81,8 @@ export default class MeFragment extends Component {
                         </TouchableOpacity>
                     }
                     <View style={styles.list}>
+                        <Item icon="eyeo" text="个人信息" iconColor={theme.textColor} onPress={this._onPressCallback.bind(this, 3)}/>
                         <Item icon="profile" iconColor={theme.textColor} text="我的申请"   onPress={this._onPressCallback.bind(this, 2)}/>
-                        <Item icon="eyeo" text="我的资料" iconColor={theme.textColor} onPress={this._onPressCallback.bind(this, 3)}/>
                     </View>
                     <View style={styles.list}>
                         <Item icon="smileo" text="关于我们" iconColor={theme.textColor} onPress={this._onPressCallback.bind(this, 4)}/>
